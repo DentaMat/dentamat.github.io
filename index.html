@@ -958,103 +958,417 @@
                 description: "Explore the chemistry of esthetic improvement and the protocols for safe, effective tooth bleaching.",
                 color: "violet",
                 modules: [
-                    {
+                 {
                         id: "m2-1",
-                        title: "Whitening Fundamentals",
+                        title: "Introduction to Whitening",
                         icon: "sparkles",
-                        thumbImage: "https://lh3.googleusercontent.com/d/189003yyJ_1b6uLyypbeHW9lCFL-95Ojg", 
+                        thumbImage: "https://lh3.googleusercontent.com/d/1pJyvvco_5a3y8Q3__J3QLMXDSD4ZzHQ3",
                         learningObjectives: [
                             "Explain stains and whitening assessment.",
-                            "Compare In-office vs. Home whitening workflows.",
-                            "Discuss the teeth whitening mechanism (oxidation)."
+                            "Discuss the teeth whitening mechanism.",
+                            "Discuss the different whitening products and active ingredients."
                         ],
                         slides: [
+                            // 1. Treatment Planning & Communication
                             {
                                 type: "text-image-right",
-                                title: "Stain Classification",
-                                content: "<strong>Extrinsic:</strong> Surface stains from coffee, tobacco, or hygiene. Must be mechanically removed (prophy) before whitening, otherwise, they block the gel.<br><br><strong>Intrinsic:</strong> Deep discoloration within dentin/enamel.<br>• <em>Systemic:</em> Tetracycline (banding).<br>• <em>Trauma:</em> Iron sulfide from blood degradation (dark gray).<br>• <em>Aging:</em> Natural yellowing.<br>These require chemical oxidation.",
-                                image: "https://lh3.googleusercontent.com/d/12zJW9S3C-J5BTmNlyfXZZOycJvD9_8Y6" 
+                                title: "1. Treatment Planning & Communication",
+                                content: "<strong>Patient Assessment:</strong> Success relies on smile analysis, intraoral scanning, radiography, and dental history.<br><br><strong>Patient Success:</strong> Evaluate the patient’s hopes and set a realistic goal using dental photography to determine the shade.<br><br><strong>Instrumental Monitoring:</strong> The instrumental method calculates the color difference (ΔE*) before and after bleaching using devices like spectrophotometers.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/13klBV0hs6S5OSndE_ylIg3-fqqzQhqB3", // Clinical Setting
+                                    "https://lh3.googleusercontent.com/d/1wbiKyD05BrnupACB2tillkXX9A1MwuUy", // Smile Analysis Before
+                                    "https://lh3.googleusercontent.com/d/1mz7jdUV1UuBbb3Y4V7wa5h6JjLJ22cI7"  // Smile Analysis After
+                                ]
                             },
+                            // 2. Global Lexicon (NEW - 2nd Slide)
+                            {
+                                type: "glossary",
+                                title: "Whitening Global Lexicon",
+                                leftColumn: [
+                                    {
+                                        category: "Stains & Biology",
+                                        terms: [
+                                            { term: "Chromogens", def: "Darkly pigmented compounds (from coffee, wine, tobacco) that adhere to enamel." },
+                                            { term: "Extrinsic Stain", def: "Surface discoloration on the enamel layer; removable by prophy or polishing." },
+                                            { term: "Intrinsic Stain", def: "Deep discoloration within dentin/enamel caused by trauma, aging, or medication (e.g., Tetracycline)." },
+                                            { term: "Non-Vital Tooth", def: "A tooth with a necrotic (dead) pulp, often darkening from the inside due to blood breakdown products." },
+                                            { term: "Dentin Tubules", def: "Microscopic channels in dentin; whitening can open these, leading to temporary sensitivity." }
+                                        ]
+                                    },
+                                    {
+                                        category: "Chemistry & Mechanism",
+                                        terms: [
+                                            { term: "Oxidation", def: "The chemical process where oxygen free radicals cleave the double bonds of pigment molecules, rendering them colorless." },
+                                            { term: "Hydrogen Peroxide (HP)", def: "The active whitening agent. Fast-acting, potent, typically used for In-Office treatments." },
+                                            { term: "Carbamide Peroxide (CP)", def: "A stable compound that breaks down into Hydrogen Peroxide (~1/3) and Urea. Slower acting, ideal for Take-Home trays." },
+                                            { term: "Free Radicals", def: "Unstable oxygen molecules released by peroxide that penetrate enamel to break down stains." }
+                                        ]
+                                    }
+                                ],
+                                rightColumn: [
+                                    {
+                                        category: "Clinical Procedures",
+                                        terms: [
+                                            { term: "Spectrophotometer", def: "An instrument used to measure the exact color of teeth objectively (e.g., calculating ΔE*)." },
+                                            { term: "Gingival Barrier", def: "Light-cured resin applied to gums to prevent chemical burns from high-concentration peroxide." },
+                                            { term: "Internal Bleaching", def: "Placing whitening agents inside the pulp chamber of a non-vital tooth." },
+                                            { term: "Walking Bleach", def: "A technique where whitening agent is sealed inside a non-vital tooth for several days." }
+                                        ]
+                                    },
+                                    {
+                                        category: "Post-Treatment",
+                                        terms: [
+                                            { term: "Rebound", def: "The slight relapse in shade that can occur shortly after whitening as teeth rehydrate." },
+                                            { term: "Remineralization", def: "The process of restoring minerals to the enamel matrix to strengthen teeth and reduce sensitivity." },
+                                            { term: "Desensitizer", def: "Agents (like Potassium Nitrate or CPICs) applied to calm nerve endings or occlude tubules." }
+                                        ]
+                                    }
+                                ]
+                            },
+                            // 3. Discuss Stain
                             {
                                 type: "text-image-left",
-                                title: "Pre-Whitening Assessment",
-                                content: "<strong>Contraindications:</strong><br>• <em>Leaking Restorations:</em> Peroxide penetration causes severe pain/necrosis.<br>• <em>Existing Crowns/Veneers:</em> <strong>Crucial Point:</strong> Whitening only affects natural tooth structure. Ceramics will not change color, leading to a mismatch.<br><br><strong>Non-Vital Teeth:</strong> External whitening is rarely enough; often requires internal bleaching.",
-                                image: "https://lh3.googleusercontent.com/d/1ZDUpvvBz3-r9B1q8UJA25tk5sLIQ-I4x"
+                                title: "2. Discuss Stain",
+                                content: "<strong>Extrinsic Staining:</strong> Discoloration on the outer enamel layer caused by accumulation of chromogens (coffee, tobacco). <em>Protocol:</em> Must be mechanically removed (prophy/ultrasonic) before whitening.<br><br><strong>Intrinsic Staining:</strong> Deep discoloration inside the dentin or enamel structure.<br>• <strong>Systemic:</strong> Tetracycline use (banding).<br>• <strong>Trauma:</strong> Iron sulfide from blood degradation (dark gray).<br>• <strong>Aging:</strong> Natural yellowing.<br><em>Protocol:</em> Requires chemical oxidation.",
+                                image: "https://lh3.googleusercontent.com/d/12zJW9S3C-J5BTmNlyfXZZOycJvD9_8Y6" // Stains
                             },
+                            // 4. Pre-Whitening Assessment
                             {
                                 type: "text-image-right",
-                                title: "Step 1: Hygiene & Preparation",
-                                content: "<strong>Definition:</strong> Removal of pellicle and biofilm.<br><strong>Why:</strong> A clean surface maximizes the surface area for the gel to contact enamel. Splatter control prevents cross-contamination.<br><br><strong>How (Protocol):</strong><br>1. <strong>Clean:</strong> Use ProMate™ LF Hygiene Prophy Handpiece.<br>2. <strong>Paste:</strong> Apply ProPaste® One (Unit-dose prevents cross-contamination).<br>3. <strong>Safety:</strong> Use AntiSplatr® Disposable Prophy Angles to minimize aerosol spray.",
-                                media: [
-                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1nXdJtoHQDnPmfxJZdDxfWVLUnQBR9nh4' }, 
-                                    { type: 'video', src: 'SPzC7ds-vHo' } 
-                                ]
+                                title: "3. Pre-Whitening Assessment",
+                                content: "<strong>Contraindications:</strong><br>• <strong>Leaking Restorations/Caries:</strong> Peroxide can penetrate the pulp, causing necrosis. Fill cavities first.<br>• <strong>Existing Crowns/Veneers:</strong> Whitening agents <em>only</em> affect natural tooth structure. Ceramics will not change color, leading to a mismatch.<br><br><strong>Special Case (Non-Vital Teeth):</strong> Teeth with necrotic pulp darken internally (blood breakdown). External whitening is rarely enough; 'Internal Bleaching' via the access cavity is required.",
+                                image: "https://lh3.googleusercontent.com/d/1ZDUpvvBz3-r9B1q8UJA25tk5sLIQ-I4x" // Assessment
                             },
+                            // 5. Teeth Discoloration (Enamel Entry)
                             {
                                 type: "text-image-left",
-                                title: "Step 2: Site Setup",
-                                content: "<strong>Protocol:</strong><br>1. <strong>Color Match:</strong> Document the pre-treatment shade with the shade guide.<br>2. <strong>Retract:</strong> Insert SoftDry™ Angle to control saliva and protect the cheek.<br>3. <strong>Dry:</strong> Use air/water syringe to blow dry the area completely.",
-                                images: [
-                                    "https://lh3.googleusercontent.com/d/1pEhx7Xj6aTTWMsg_bapeATUXMO76L9sc", 
-                                    "https://lh3.googleusercontent.com/d/1G4wa939FH8fx_Dmk3_uwJQIu1nXe2KMl" 
-                                ]
+                                title: "4. Teeth Discoloration",
+                                content: "Stains enter the prismatic tooth space (interprismatic spaces) of the enamel via pigment molecule penetration.<br><br><strong>Entry Points:</strong><br>• <strong>Interprismatic Spaces:</strong> Small chromogenic molecules (tannins) penetrate gaps between enamel rods.<br>• <strong>Demineralization:</strong> Acidic food/drink etches enamel, creating roughness for entry.<br>• <strong>Enamel Defects:</strong> Microcracks and hypocalcified areas facilitate deep penetration.",
+                                image: "https://lh3.googleusercontent.com/d/19mtRE49J5mJ_83A24xMXJSXSP_Vb_Xxz" // Discoloration Diagram
                             },
+                            // 6. Teeth Whitening Mechanism
                             {
                                 type: "text-image-right",
-                                title: "Step 3: Soft-Tissue Isolation",
-                                content: "<strong>Definition:</strong> Creating a barrier between the strong peroxide gel and the gums/lips.<br><strong>Why:</strong> 30% Hydrogen Peroxide is caustic. Contact with the gingiva causes immediate chemical burns (blanching).<br><br><strong>How (Protocol):</strong><br>1. <strong>Barrier:</strong> Apply the light-cured Gingival Barrier Refill Kit along the gumline.<br>2. <strong>Cure:</strong> Cure with the PacDent Hand-polymerization Unit to harden.<br>3. <strong>Protect:</strong> Apply vitamin E oil to exposed tissues.",
+                                title: "5. Teeth Whitening Mechanism",
+                                content: "<strong>The Reaction:</strong> Most products contain hydrogen peroxide as the active agent.<br><br><strong>Active Oxygen:</strong> It is attracted to electron-rich areas of stain molecules. It cleaves the double bonds to reduce color or remove the compound entirely.<br><br>This type of cleavage results in the formation of free radicals and is favored by light and heat.",
                                 images: [
-                                    "https://lh3.googleusercontent.com/d/1QVtfP86kPW06XaW7uMLe0AiKTOX_C_a6", 
-                                    "https://lh3.googleusercontent.com/d/1etG37GkUTX62r3oJM-AHLU91maoF5zU_" 
+                                    "https://lh3.googleusercontent.com/d/1Ra9VYVyou-7T1kS6spkdC1u5PF5Oe_-X", // Whitening Reaction
+                                    "https://lh3.googleusercontent.com/d/1L4ducp4oEZG0ym_-VJj-vP4feSqeDNyk"  // Mechanism Diagram
                                 ]
                             },
+                            // 7. Active Agents
                             {
                                 type: "text-image-left",
-                                title: "Step 4: Gel Application & Activation",
-                                content: "<strong>Mechanism:</strong> Oxidation. Oxygen free radicals penetrate enamel pores and 'break' pigment bonds.<br><br><strong>Protocol:</strong><br>1. <strong>Apply:</strong> Extrude iBrite® Automix Gel-Type System (30% HP) directly onto the teeth.<br>2. <strong>Activate:</strong> Position the iBrite® LED light or Portable LED to accelerate breakdown of peroxide for faster results.",
-                                images: [
-                                    "https://lh3.googleusercontent.com/d/1_cMMLHWaqV5qZ3a9LIyChV6n3Z6JQOGT", // iBrite Mix
-                                    "https://lh3.googleusercontent.com/d/1sv3Cj9KF5BH5ULNhm7X-FmtDtO6AvepV", 
-                                    "https://lh3.googleusercontent.com/d/15hJQMc18aayt9HjpuUyyQDdVKNx0apLs" 
-                                ]
+                                title: "6. Active Agents",
+                                content: "<strong>Hydrogen Peroxide (HP):</strong><br>• <strong>Speed:</strong> Faster, immediate effect.<br>• <strong>Use:</strong> In-office (30-40%).<br>• <strong>Sensitivity:</strong> Slightly higher risk.<br><br><strong>Carbamide Peroxide (CP):</strong><br>• <strong>Speed:</strong> Slower, gradual effect (breaks down to ~1/3 HP).<br>• <strong>Use:</strong> Long wear (at-home/overnight).<br>• <strong>Safety:</strong> Lower risk, good for maintenance.",
+                                image: "https://lh3.googleusercontent.com/d/1oICKhHDGYGqXuq7YnhN5iuSHb6_YsyEs" // Table HP vs CP
                             },
+                            // 8. Different Types of Whitening Products
                             {
                                 type: "text-image-right",
-                                title: "Step 5: Post-Op Desensitization",
-                                content: "<strong>Why:</strong> Whitening opens dentinal tubules, leading to temporary sensitivity to cold/air.<br><br><strong>Protocol:</strong><br>1. <strong>Immediate:</strong> Apply Remi™ Aftercare Paste Combo.<br>2. <strong>Home Care:</strong> Dispense the iBrite® Tooth Whitening Pen for maintenance.<br>3. <strong>High Risk:</strong> For patients with sensitivity, apply ProMin™ / ProMin™ F to remineralize the teeth.",
-                                image: "https://lh3.googleusercontent.com/d/1ANctBggOg-dC3zCDCWrKfhKdPblc46WP" 
+                                title: "7. Different Types of Products",
+                                content: "<strong>Professional:</strong><br>• <strong>In-Office:</strong> High % HP for fastest results.<br>• <strong>Custom Trays:</strong> Dentist-supervised take-home gels.<br><br><strong>Consumer Maintenance:</strong><br>• <strong>Strips:</strong> Thin peroxide-coated plastic (30-60 mins).<br>• <strong>Gels & Pens:</strong> Painted directly on teeth.<br>• <strong>LED Kits:</strong> Blue light accelerates the process.<br>• <strong>Toothpastes:</strong> Mild abrasives for surface stains.",
+                                image: "https://lh3.googleusercontent.com/d/1-xPAXL_zPL6T_0yIMh9UOD8bI1cDFGbT" // Products
                             },
+                            // 9. References
                             {
                                 type: "text-image-left",
-                                title: "Take-home Continuation",
-                                content: "<strong>Options:</strong><br>• <strong>Fast:</strong> iBrite® Premium Kit (9% HP, short wear-time).<br>• <strong>Custom Gel:</strong> iBrite® Gel-Type Take-Home Kit (6% / 9% / 12% HP).<br>• <strong>Traditional:</strong> Kool White™ Office-Assisted Kit (10% / 15% / 20% Carbamide Peroxide). Includes Thermoform sheets and Tray Retainer Box.",
-                                images: [
-                                    "https://lh3.googleusercontent.com/d/19P_Q8dyiTsdLdyrR630lVDjRo4q5lUNN", 
-                                    "https://lh3.googleusercontent.com/d/1d-fIGcUeQETip2_wA4YHV442Ci5qeCG0"  
-                                ]
-                            },
-                            {
-                                type: "matching",
-                                title: "Product Knowledge Check",
-                                question: "Match the iBrite/Pac-Dent product to its role in the whitening workflow.",
-                                pairs: [
-                                    { left: "Gingival Barrier", right: "Soft-tissue protection" },
-                                    { left: "iBrite® Automix", right: "30% HP Whitening Gel" },
-                                    { left: "Remi™ Paste", right: "Desensitization" },
-                                    { left: "SoftDry™ Angle", right: "Saliva control" }
-                                ]
-                            },
-                            {
-                                type: "quiz",
-                                title: "Knowledge Check 2",
-                                question: "Which light is recommended to accelerate the iBrite whitening process?",
-                                options: ["UV curing light", "iBrite® LED Whitening Light", "Standard room lighting", "Infrared heat lamp"],
-                                answer: 1
+                                title: "8. References",
+                                content: "<strong>Recommended Reading:</strong><br><br>• <em>Tooth Whitening Techniques</em> - Linda Greenwall<br>• <em>Tooth Whitening: An Evidence-Based Perspective</em> - Jorge Perdigão<br><br><strong>",
+                                image: "https://lh3.googleusercontent.com/d/1rxpqvH1iNp5FJPHZNrF1HTTpnMrlREYa" // Book Covers
                             },
                             {
                                 type: "completion",
                                 title: "Module Completed!",
-                                prevModule: { id: "m1-2", partId: "preventive", title: "Preventive Materials", thumb: "https://lh3.googleusercontent.com/d/1Z4mjed0HyNRQQT5ibGkMOzQzlcYiunZ5" },
+                                prevModule: { id: "m1-3", partId: "preventive", title: "Preventive Product Sales", thumb: "https://lh3.googleusercontent.com/d/1CQgLouc3pObbb3Phw9GB7bD6_poYYF9Y" },
+                                nextModule: { id: "m2-2", partId: "whitening", title: "Whitening Products Sales", thumb: "https://lh3.googleusercontent.com/d/189003yyJ_1b6uLyypbeHW9lCFL-95Ojg" }
+                            }
+                        ]
+                    },
+                {
+                        id: "m2-2",
+                        title: "Whitening Workflow",
+                        icon: "clipboard-list",
+                        thumbImage: "https://lh3.googleusercontent.com/d/1Nx1TnKjNpr0QhN65L0mYpHlmIbINQ_vy",
+                        learningObjectives: [
+                            "Learn the complete Pac-Dent whitening workflow step-by-step.",
+                            "Compare In-office vs. Home whitening protocols.",
+                            "Discuss immediate desensitization and remineralization."
+                        ],
+                        slides: [
+                            // 0. Overview (NEW)
+                            {
+                                type: "text-image-right",
+                                title: "0. Whitening Workflow Overview",
+                                content: "<strong>In-Office Vital Teeth Whitening:</strong><br>A comprehensive technical procedure involving specific steps to ensure safety, efficacy, and patient comfort.<br><br><strong>Key Stages:</strong><br>1. Tray Design & Prophy<br>2. Isolation & Protection<br>3. Application & Activation<br>4. Remineralization<br><br>Watch the video to see the full clinical workflow in action.",
+                                media: [
+                                    { type: 'video', src: '-GwnG9UA3ko' } // Workflow Video
+                                ]
+                            },
+                            // 1. Bleaching Tray Design & Printing
+                            {
+                                type: "text-image-right",
+                                title: "1. Bleaching Tray Design & Printing",
+                                content: "In-office vital teeth whitening techniques include specific preparation steps. Custom trays allow patients to supplement in-office procedures with at-home bleaching to minimize rebound.<br><br><strong>Workflow:</strong><br>1. <strong>Scan:</strong> Capture patient's mouth with an Intraoral Scanner (IOS).<br>2. <strong>Design:</strong> Load scan into <em>RodinWorks</em> software to design the bleaching tray.<br>3. <strong>Print:</strong> Use <em>SOL SE</em> printer and <em>FlexiSplint</em> resin to print the tray.<br><em>Note: Trays can also be thermoformed using printed models.</em>",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1FP_ypeR7RNI4tkVv_BWWPbxuoCSfvwhK", // RodinWorks Design
+                                    "https://lh3.googleusercontent.com/d/1OCDKc4-CJgxFxqtJjCI6cZG2hoIp57Fi"  // FlexiSplint & Tray
+                                ]
+                            },
+                            // 2. Prophy
+                            {
+                                type: "text-image-left",
+                                title: "2. Prophy",
+                                content: "<strong>Goal:</strong> Removal of pellicle and biofilm.<br><br><strong>Why:</strong> A clean surface maximizes the surface area for the gel to contact enamel. Splatter control prevents cross-contamination.<br><br><strong>Protocol:</strong><br>1. <strong>Clean:</strong> Use <em>ProMate™ LF Hygiene Prophy Handpiece</em>.<br>2. <strong>Paste:</strong> Apply <em>ProPaste® One</em> (Unit-dose prevents cross-contamination).<br>3. <strong>Safety:</strong> Use <em>AntiSplatr® Disposable Prophy Angles</em> to minimize aerosol spray.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1nXdJtoHQDnPmfxJZdDxfWVLUnQBR9nh4", // ProMate Handpiece
+                                    "https://lh3.googleusercontent.com/d/1P5hnh5qkUEhKGtBXbWrkB38oO-wUUavO"  // Clinical Prophy
+                                ]
+                            },
+                            // 3. Protective equipment & Hand curing unit
+                            {
+                                type: "text-image-right",
+                                title: "3. Protective Equipment",
+                                content: "When using a supplemental light device, it is essential to provide the patient with light-protective eyewear to filter harmful radiation.<br><br><strong>Essential Gear:</strong><br>• <strong>Patient:</strong> <em>iVisor™ Visor and Shield Kit</em> provides face/mouth protection, and the UV protection band protects the eyes.<br>• <strong>Equipment:</strong> <em>Armor™ Universal Curing Light Shield</em> & <em>Armor™ Curing Light Sleeves</em> protect the Handcure unit from contamination.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1Qp8qB18y66EEijjLzfsO3XyZTxLY_V9i", // iVisor
+                                    "https://lh3.googleusercontent.com/d/1iZF0zg5uB3Yg-qKRyxHDeevV32xNzsxU", // Light Shield
+                                    "https://lh3.googleusercontent.com/d/1HjLJJDkP_OS7aNQL9tBwP_Hgp_pbb5C-"  // Sleeve
+                                ]
+                            },
+                            // 4. Lip protection and cheek retraction
+                            {
+                                type: "text-image-left",
+                                title: "4. Lip Protection & Cheek Retraction",
+                                content: "Proper isolation is critical for patient comfort and to prevent chemical burns on soft tissues.<br><br><strong>Protocol:</strong><br>1. <strong>Protect:</strong> Moisturize lips with petroleum jelly, Vaseline, or Vitamin E oil.<br>2. <strong>Retract:</strong> Insert cheek retractors to expose the aesthetic zone.<br>3. <strong>Isolate:</strong> Use <em>SoftDry™ Angle</em> to control saliva flow from the parotid duct.",
+                                image: "https://lh3.googleusercontent.com/d/1G4wa939FH8fx_Dmk3_uwJQIu1nXe2KMl" // SoftDry & Retractor
+                            },
+                            // 5. Soft-Tissue Isolation
+                            {
+                                type: "text-image-right",
+                                title: "5. Soft-Tissue Isolation",
+                                content: "<strong>Definition:</strong> Creating a barrier between the strong peroxide gel and the gums.<br><strong>Why:</strong> 30%+ Hydrogen Peroxide is caustic. Contact causes immediate blanching/burns.<br><br><strong>Protocol:</strong><br>1. <strong>Barrier:</strong> Apply <em>Gingival Barrier Refill Kit</em> along the gumline.<br>2. <strong>Cure:</strong> Use the PacDent Hand-polymerization Unit to harden the barrier.<br>3. <strong>Protect:</strong> Apply Vitamin E oil to exposed tissues.",
+                                image: "https://lh3.googleusercontent.com/d/1etG37GkUTX62r3oJM-AHLU91maoF5zU_" // Gingival Barrier Syringe
+                            },
+                            // 6. Gel Preparation, Application & Activation
+                            {
+                                type: "text-image-left",
+                                title: "6. Gel Preparation & Activation",
+                                content: "<strong>The Oxidation Process:</strong> The gel releases oxygen free radicals to oxidize carbon bonds in the stain.<br><br><strong>Protocol:</strong><br>1. <strong>Apply:</strong> Extrude <em>40% HP In-Office Whitening Kit</em> or <em>iBrite® Automix</em> (30% HP) into a dappen dish, then paint a 2mm layer onto teeth.<br>2. <strong>Activate:</strong> Position the <em>iBrite® LED Whitening System</em> (or Portable LED) to accelerate the breakdown of peroxide for faster results.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1uy_xafFqQ7udNoPpuo1OuySVdNG9CtG2", // Kit
+                                    "https://lh3.googleusercontent.com/d/1J6HvPhSW6NvFA3kbEUnbsLku5k_t6IX7"  // Application with Light
+                                ]
+                            },
+                            // 7. Shade comparison
+                            {
+                                type: "text-image-right",
+                                title: "7. Shade Comparison",
+                                content: "Document the pre-bleaching and post-bleaching shade using visual and/or instrumental methods.<br><br><strong>Tools:</strong><br>• Standard Shade Guides (Vita)<br>• Dental Photography<br>• <strong>Newer Systems:</strong> Use Artificial Intelligence (AI) for objective shade matching and success verification.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1pEhx7Xj6aTTWMsg_bapeATUXMO76L9sc", // Visual Guide
+                                    "https://lh3.googleusercontent.com/d/1eFRUwEGnH8vhA0hCe7geExm1L20kG7J4"  // AI Analysis
+                                ]
+                            },
+                            // 8. Aftercare (Updated with Video)
+                            {
+                                type: "text-image-left",
+                                title: "8. Aftercare",
+                                content: "<strong>Managing Sensitivity:</strong> Whitening opens dentinal tubules, leading to temporary sensitivity to cold/air.<br><br><strong>Protocol:</strong><br>• Apply the <em>Remi™ Aftercare Paste Combo</em> immediately after treatment.<br>• This provides a continuous whitening effect while managing hypersensitivity.",
+                                media: [
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1ANctBggOg-dC3zCDCWrKfhKdPblc46WP' }, // Remi Pen
+                                    { type: 'video', src: 'c_hirLj17sI' } // Remi Workflow Video
+                                ]
+                            },
+                            // 9. Take-home continuation (Updated with Video)
+                            {
+                                type: "text-image-right",
+                                title: "9. Take-home Continuation",
+                                content: "Patients should continue maintenance to ensure long-term results.<br><br><strong>Options:</strong><br>• <strong>Device:</strong> <em>White Blitz Illuminating Kit</em> (LED system).<br>• <strong>Daily:</strong> Brush with <em>Nano-Bio Activation</em> whitening toothpaste.<br>• <strong>Custom Trays:</strong> <em>iBrite® Premium</em> (9% HP) or <em>iBrite® Gel-Type</em> (12%/9%/6% HP) for short wear times, or <em>Kool White™</em> (Carbamide Peroxide) for overnight wear.",
+                                media: [
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1SehyKnRTL5PudWJQpMBHpqn95VlqYHzB' }, // White Blitz
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1ZSM2HRzT0sheAcmadjRxPA1UI7imEvwo' }, // Toothpaste
+                                    { type: 'video', src: 'UxA29OojKCw' } // White Blitz Workflow
+                                ]
+                            },
+                            // 10. Desensitization (Updated with Video)
+                            {
+                                type: "text-image-left",
+                                title: "10. Desensitization & Remineralization",
+                                content: "<strong>ProMin™ / ProMin™ F:</strong> Provides enamel regeneration using CPICs technology.<br><br><strong>Mechanism:</strong><br>• CPICs release calcium and phosphate ions to the tooth surface.<br>• Penetrates microscopic pores and subsurface defects.<br>• Transforms into enamel-like apatite, restoring hardness.<br><br><strong>Protocol:</strong> Apply ProMin™ immediately after whitening. Allow saliva activation (do not rinse for 30 mins).",
+                                media: [
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/16BhyVkR7CurSci3GK0MYCEXlx7IqOtul' }, // ProMin Paste
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1lD33vhucW4uCPD7sW8i_M0Q4qEEuksN3' }, // CPIC Mechanism
+                                    { type: 'video', src: '_uic4eEMTcI' } // ProMin Workflow
+                                ]
+                            },
+                            // 11. Quiz (NEW)
+                            {
+                                type: "quiz",
+                                title: "Knowledge Check",
+                                question: "How long should a patient wait before rinsing after applying ProMin™ desensitizing paste?",
+                                options: [
+                                    "Rinse immediately",
+                                    "5 minutes",
+                                    "At least 30 minutes",
+                                    "1 hour"
+                                ],
+                                answer: 2
+                            },
+                            {
+                                type: "completion",
+                                title: "Module Completed!",
+                                prevModule: { id: "m2-1", partId: "whitening", title: "Introduction to Whitening", thumb: "https://lh3.googleusercontent.com/d/1pJyvvco_5a3y8Q3__J3QLMXDSD4ZzHQ3" },
+                                nextModule: null
+                            }
+                        ]
+                    },
+                  {
+                        id: "m2-3",
+                        title: "Whitening Product Sales",
+                        icon: "shopping-bag",
+                        thumbImage: "https://lh3.googleusercontent.com/d/1D9qAfvdz3SX__UqMV0OJKfCW7cInYv6U",
+                        learningObjectives: [
+                            "Learn about Medidenta, WhiterImage, and the iBright brand ecosystem.",
+                            "Analyze the whitening market and key competitors (Ultradent, Zoom, SDI).",
+                            "Master the selling points for Pac-Dent whitening solutions against specific competitor products."
+                        ],
+                        slides: [
+                            // Slide 1: Brand Ecosystem (Updated with Video)
+                            {
+                                type: "text-image-right",
+                                title: "iBright, Medidenta & WhiterImage",
+                                content: "<strong>iBright:</strong> The official brand for Pac-Dent whitening products.<br><br><strong>Medidenta:</strong> A part of Pac-Dent and the official US reseller. They launched <strong>WhiterImage</strong>, a brand selling Pac-Dent preventive/whitening products globally (Oman, Japan, Netherlands, etc.).<br><br><strong>Sales Model:</strong> Hybrid approach. Sold through distributors who do Direct-to-Consumer (DTC) or directly via Amazon.",
+                                media: [
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1CuIpIE61se9MaHER44DD3-oV1PJRKhcd' }, // Medidenta Website
+                                    { type: 'image', src: 'https://lh3.googleusercontent.com/d/1gMwmNjO6uGCHT_MRxpn2SSYfxvx2gWEy' }, // WhiterImage Website
+                                    { type: 'video', src: '4pno7jhWKQw' } // Whitening Collection Video
+                                ]
+                            },
+                            // Slide 2: Market Competitors
+                            {
+                                type: "text-image-left",
+                                title: "Key Competitors Analysis",
+                                content: "<strong>Ultradent (Opalescence):</strong> #1 globally. Dominates due to broad portfolio and massive brand loyalty.<br><br><strong>Philips Zoom!:</strong> Top In-Office system. Known for light-accelerated results and strong consumer recognition.<br><br><strong>SDI (Pola):</strong> Strong global share (Europe/Asia). Known for gentle formulas.<br><br><strong>Dentsply Sirona (SureSmile):</strong> Leverages aligner network to sell whitening add-ons.",
+                                image: "https://lh3.googleusercontent.com/d/1_j1SihpaB8MPCGUpV98FYp8zGxgoeeVT" // Competitor Logos
+                            },
+                            // Slide 3: Toothpaste
+                            {
+                                type: "product-sales",
+                                title: "Whiter Image Nano Bio Activation Toothpaste",
+                                description: "Next-generation oral care using <strong>Nano-Bio Activation technology</strong>. Nano-sized particles and bio-active compounds penetrate and lift stubborn enamel stains (coffee, wine) without sensitivity.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1ZSM2HRzT0sheAcmadjRxPA1UI7imEvwo", // Whiter Image
+                                    "https://lh3.googleusercontent.com/d/1TwOWluCYDXOq-AE3qaehseKIYibIsWW-" // Crest/Colgate
+                                ],
+                                features: [
+                                    "<strong>Nano-Bio Tech:</strong> Enhanced stain removal without abrasion.",
+                                    "<strong>Fluoride Protection:</strong> Strengthens enamel and prevents cavities.",
+                                    "<strong>Long-Lasting Freshness:</strong> Mint flavor supports balanced oral flora."
+                                ],
+                                compareTo: "Crest: https://crest.com/en-us OR Colgate: https://www.colgate.com/",
+                                repsCare: "Professional alternative for daily whitening maintenance. Gentle on gums.",
+                                clinicianCare: "Ideal support for patients prone to recurring surface stains."
+                            },
+                            // Slide 4: Gingival Barrier
+                            {
+                                type: "product-sales",
+                                title: "Gingival Barrier (Light-Cured)",
+                                description: "A resin-based, light-cured barrier that protects the gingiva from irritation and chemical burns during high-concentration whitening treatments. Easily removable.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1txyo1b-busIOOkhDDNZwZ29QwZh0MpEU", // PacDent Barrier
+                                    "https://lh3.googleusercontent.com/d/1pEcGqUfmQ2zs-RXWHk5-S5YCwDOXUeUm" // OpalDam
+                                ],
+                                features: [
+                                    "<strong>Leakproof Protection:</strong> Eliminates the need for a rubber dam.",
+                                    "<strong>Syringe Delivery:</strong> Precise placement via needle tips.",
+                                    "<strong>Easy Removal:</strong> Peels off cleanly after treatment."
+                                ],
+                                compareTo: "Ultradent OpalDam Green: https://www.ultradent.com/products/categories/whitening/isolation/opaldam-and-opaldam-green",
+                                repsCare: "Highlight fast cure time and clean removal vs competitors.",
+                                clinicianCare: "Essential safety step for 30%+ Hydrogen Peroxide treatments."
+                            },
+                            // Slide 5: 40% HP Kit (Updated Images)
+                            {
+                                type: "product-sales",
+                                title: "40% HP In-Office Whitening Kit",
+                                description: "An all-in-one professional kit containing <strong>40% Hydrogen Peroxide</strong> for immediate, high-impact results. Designed to integrate easily into current practice procedures.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1uy_xafFqQ7udNoPpuo1OuySVdNG9CtG2", // 40% Kit
+                                    "https://lh3.googleusercontent.com/d/18-e_jnUu74pqsMGxAwiugqa9l1NSwrPy", // Zoom Kit
+                                    "https://lh3.googleusercontent.com/d/13WH7YFtViWABdcLDUrRSfu4iBtcy3-CY", // Pola Rapid
+                                    "https://lh3.googleusercontent.com/d/1VR_QWVD9MNwRnnmHP0i8_qKvrJCrPtIN"  // Opalescence Pro
+                                ],
+                                features: [
+                                    "<strong>Clinical Formula:</strong> 40% HP concentration for maximum speed.",
+                                    "<strong>Advanced Tech:</strong> Breaks down stubborn stains effectively.",
+                                    "<strong>Complete Box:</strong> Everything needed for a single patient procedure."
+                                ],
+                                compareTo: "Philips Zoom Kit: https://www.usa.philips.com/c-m-pe/dental-professionals/products/whitening/in-office-whitening OR SDI Pola Rapid: https://www.sdi.com.au/au/product/pola-rapid/ OR Opalescence Boost",
+                                repsCare: "Lower price point than Zoom/Opalescence with comparable high concentration.",
+                                clinicianCare: "Fast application minimizes chair time. Less sensitivity reported."
+                            },
+                            // Slide 6: White Blitz (Updated Images)
+                            {
+                                type: "product-sales",
+                                title: "White Blitz Illuminating Kit",
+                                description: "A patient-controlled home kit featuring <strong>12% Hydrogen Peroxide</strong> and an LED mouthpiece. Includes 8 mini pens providing up to 120 whitening sessions.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1SehyKnRTL5PudWJQpMBHpqn95VlqYHzB", // White Blitz
+                                    "https://lh3.googleusercontent.com/d/1W5ka8mNLY-Z_ZupSXWlFKx8Xjfq7XDtX", // iBrite Gel
+                                    "https://lh3.googleusercontent.com/d/1UfGjJrKSHROsL2BLl5HaRZDiFTbB-GY6"  // SureSmile
+                                ],
+                                features: [
+                                    "<strong>Sensitivity-Free:</strong> Gentle 12% formula safe for enamel.",
+                                    "<strong>LED Mouthpiece:</strong> Accelerates results; compact and rechargeable.",
+                                    "<strong>Remineralization:</strong> Includes paste to restore enamel strength."
+                                ],
+                                compareTo: "Dentsply Sirona SureSmile: https://www.dentsplysirona.com/en-us/discover/discover-by-brand/suresmile-aligners/suresmile-system.html",
+                                repsCare: "Great add-on revenue for Dental & Medical Spas. Kit can be personalized.",
+                                clinicianCare: "Provides a structured at-home plan and reduces patient complaints regarding sensitivity."
+                            },
+                            // Slide 7: Kool White (Updated Images)
+                            {
+                                type: "product-sales",
+                                title: "Kool White™ Office-Assisted Take-Home",
+                                description: "A supervised take-home system using <strong>Carbamide Peroxide (CP)</strong>. Available in 10%, 15%, and 20% strengths to suit sensitivity levels and wear times.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1d-fIGcUeQETip2_wA4YHV442Ci5qeCG0", // Kool White Bag
+                                    "https://lh3.googleusercontent.com/d/1l8ue-sF_4C6qyerftkSM-9AEgGDHnpad", // Opalescence Custom
+                                    "https://lh3.googleusercontent.com/d/14I0gopn-cZaseXRcaN8dS6PvO_AyBm1M", // Pola Day/Night
+                                    "https://lh3.googleusercontent.com/d/1CJJTj04OAGRoCpVuXdZuVWbgPLcXNdcw"  // NiteWhite
+                                ],
+                                features: [
+                                    "<strong>Thickening Agent:</strong> Unique formula improves handling and tray retention.",
+                                    "<strong>Custom Trays:</strong> Designed for use with lab-fabricated trays.",
+                                    "<strong>Guaranteed Results:</strong> Visible improvement in 2 weeks."
+                                ],
+                                compareTo: "Zoom NiteWhite: https://www.usa.philips.com/c-m-pe/dental-professionals/products/whitening/zoom-whitening-delivered/nitewhite-quick OR SDI Pola Night",
+                                repsCare: "The classic 'tray whitening' pathway. Sell on value and formulation stability.",
+                                clinicianCare: "Excellent for sensitive patients (starts at 10% CP)."
+                            },
+                            // Slide 8: iBrite LED Light
+                            {
+                                type: "product-sales",
+                                title: "iBrite LED Teeth Whitening System",
+                                description: "A professional LED light that emits a safe blue-green spectrum (no harmful UV). It accelerates the breakdown of peroxide for faster in-office results.",
+                                images: [
+                                    "https://lh3.googleusercontent.com/d/1mGFc1UVeFIUdX4XqbuXI-FKwEp8pZiru", // iBrite Light
+                                    "https://lh3.googleusercontent.com/d/1I4rnFfsiCX_zlOO2m5oyq9tWkea1-MKc" // Zoom WhiteSpeed
+                                ],
+                                features: [
+                                    "<strong>Fast Results:</strong> 6-10 shades whiter in under 1 hour.",
+                                    "<strong>Portable:</strong> Much smaller than standard lights; tabletop or wheelbase.",
+                                    "<strong>Patient Control:</strong> Can be operated by the patient; countdown timer visible."
+                                ],
+                                compareTo: "Philips Zoom WhiteSpeed: https://www.usa.philips.com/c-m-pe/dental-professionals/products/whitening/in-office-whitening",
+                                repsCare: "Fast track procedure. Similar capacity to Zoom but more portable and affordable.",
+                                clinicianCare: "Optional activation step that boosts patient perception of 'high-tech' treatment."
+                            },
+                            {
+                                type: "completion",
+                                title: "Module Completed!",
+                                prevModule: { id: "m2-2", partId: "whitening", title: "Whitening Workflow", thumb: "https://lh3.googleusercontent.com/d/1Nx1TnKjNpr0QhN65L0mYpHlmIbINQ_vy" },
                                 nextModule: null
                             }
                         ]
