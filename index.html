@@ -2653,52 +2653,266 @@
             },
 
             // --- Lightbox / Fullscreen Logic ---
+           // --- Lightbox / Fullscreen Logic (Full Screen Annotation Fix) ---
             injectLightbox() {
-                if (!document.getElementById('image-lightbox')) {
-                    const lightboxHTML = `
-                        <div id="image-lightbox" class="fixed inset-0 z-[9999] bg-black/95 hidden flex flex-col items-center justify-center transition-opacity duration-300 opacity-0" onclick="window.app.closeFullscreen()">
-                            <button class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2 z-[10000]" onclick="window.app.closeFullscreen()">
-                                <i data-lucide="x" class="w-10 h-10"></i>
+                if (document.getElementById('image-lightbox')) return;
+
+                const lightboxHTML = `
+                    <div id="image-lightbox" class="fixed inset-0 z-[10000] bg-black/95 hidden flex flex-col transition-opacity duration-300 opacity-0">
+                        
+                        <!-- 1. Full Screen Drawing Layer (Z-Index: 10005 - Above image, Below buttons) -->
+                        <canvas id="lb-canvas" class="fixed inset-0 z-[10005] pointer-events-none cursor-crosshair touch-none"></canvas>
+
+                        <!-- 2. Header Controls (Z-Index: 10010 - Clickable over canvas) -->
+                        <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10010]">
+                            <span id="lightbox-counter" class="text-white/70 font-mono text-sm ml-2 pointer-events-none"></span>
+                            <div class="flex items-center gap-4">
+                                <button onclick="window.app.toggleLightboxDrawing()" id="lb-draw-btn" class="text-white/70 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors flex items-center gap-2 border border-transparent">
+                                    <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                                    <span class="text-sm font-bold hidden md:inline">Annotate</span>
+                                </button>
+                                <button onclick="window.app.closeFullscreen()" class="text-white/70 hover:text-red-400 p-2 transition-colors">
+                                    <i data-lucide="x" class="w-8 h-8"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 3. Main Content Area -->
+                        <div class="flex-grow flex items-center justify-center relative w-full h-full overflow-hidden z-[10001]">
+                            
+                            <!-- Prev Button (Z-Index: 10010) -->
+                            <button id="lb-prev-btn" onclick="window.app.nextFullscreenImage(-1)" class="absolute left-2 md:left-8 z-[10010] text-white/50 hover:text-white p-3 hover:bg-white/10 rounded-full transition-all">
+                                <i data-lucide="chevron-left" class="w-10 h-10"></i>
                             </button>
-                            <img id="lightbox-img" src="" class="max-h-[90vh] max-w-[90vw] object-contain shadow-2xl rounded-md transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
-                            <p id="lightbox-caption" class="text-white/80 mt-4 font-medium text-lg"></p>
-                        </div>`;
-                    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-                    lucide.createIcons();
-                }
+
+                            <!-- Image Wrapper -->
+                            <div id="lb-content-wrapper" class="relative max-h-[85vh] max-w-[95vw] md:max-w-[85vw] pointer-events-none">
+                                <img id="lightbox-img" src="" class="max-h-[85vh] max-w-full object-contain shadow-2xl rounded-md select-none">
+                            </div>
+
+                            <!-- Next Button (Z-Index: 10010) -->
+                            <button id="lb-next-btn" onclick="window.app.nextFullscreenImage(1)" class="absolute right-2 md:right-8 z-[10010] text-white/50 hover:text-white p-3 hover:bg-white/10 rounded-full transition-all">
+                                <i data-lucide="chevron-right" class="w-10 h-10"></i>
+                            </button>
+                        </div>
+
+                        <!-- Caption -->
+                        <div class="absolute bottom-6 w-full text-center z-[10001] pointer-events-none">
+                            <p id="lightbox-caption" class="text-white/90 font-medium text-lg px-4 drop-shadow-md"></p>
+                        </div>
+
+                        <!-- 4. Drawing Toolbar (Z-Index: 10020 - Highest) -->
+                        <div id="lb-draw-tools" class="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-800/90 border border-slate-600 rounded-full px-6 py-3 flex items-center gap-4 z-[10020] hidden">
+                            <button onclick="window.app.setLbTool('#ef4444')" class="w-6 h-6 rounded-full bg-red-500 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                            <button onclick="window.app.setLbTool('#facc15')" class="w-6 h-6 rounded-full bg-yellow-400 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                            <button onclick="window.app.setLbTool('#3b82f6')" class="w-6 h-6 rounded-full bg-blue-500 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                            <div class="w-px h-6 bg-slate-500"></div>
+                            <button onclick="window.app.clearLbCanvas()" class="text-white hover:text-red-400 flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+                lucide.createIcons();
             },
 
             openFullscreen(src, caption = '') {
                 const lightbox = document.getElementById('image-lightbox');
                 const img = document.getElementById('lightbox-img');
                 const cap = document.getElementById('lightbox-caption');
+                const prevBtn = document.getElementById('lb-prev-btn');
+                const nextBtn = document.getElementById('lb-next-btn');
+                const counter = document.getElementById('lightbox-counter');
                 
                 if(!lightbox || !img) return;
+
+                // 1. Move Lightbox to end of DOM
+                document.body.appendChild(lightbox);
+
+                // 2. Reset State
+                this.state.isLbDrawingActive = false;
+                this.state.lbImages = [];
+                this.state.lbIndex = 0;
+                document.getElementById('lb-draw-tools').classList.add('hidden');
+                document.getElementById('lb-draw-btn').classList.remove('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
+                document.getElementById('lb-canvas').classList.add('pointer-events-none');
+                this.clearLbCanvas();
+
+                // 3. Bind Window Resize (Full Screen Canvas)
+                if (this.state._boundResize) window.removeEventListener('resize', this.state._boundResize);
+                this.state._boundResize = this.resizeLbCanvas.bind(this);
+                window.addEventListener('resize', this.state._boundResize);
+
+                // 4. Data Collection
+                const currentSlide = this.state.currentModule ? this.state.currentModule.slides[this.state.currentSlideIndex] : null;
                 
-                img.src = src;
-                if(cap) cap.textContent = caption;
-                
+                if (currentSlide) {
+                    if (currentSlide.images && currentSlide.images.length > 0) {
+                        this.state.lbImages = currentSlide.images.map((url, i) => ({
+                            src: url,
+                            caption: currentSlide.type === 'product-sales' 
+                                ? (i === 0 ? `Pac-Dent: ${currentSlide.title}` : `Competitor: ${currentSlide.compareTo.split(':')[0]}`)
+                                : (currentSlide.title + ` (${i+1}/${currentSlide.images.length})`)
+                        }));
+                    } else if (currentSlide.media && currentSlide.media.length > 0) {
+                        this.state.lbImages = currentSlide.media.filter(m => m.type === 'image').map(m => ({ src: m.src, caption: currentSlide.title }));
+                    } else if (currentSlide.image) {
+                        this.state.lbImages = [{ src: currentSlide.image, caption: currentSlide.title }];
+                    } else {
+                        this.state.lbImages = [{ src: src, caption: caption }];
+                    }
+                } else {
+                    this.state.lbImages = [{ src: src, caption: caption }];
+                }
+
+                // 5. Indexing
+                this.state.lbIndex = this.state.lbImages.findIndex(item => item.src === src);
+                if (this.state.lbIndex === -1) this.state.lbIndex = 0;
+
+                // 6. Update UI
+                const currentData = this.state.lbImages[this.state.lbIndex];
+                img.src = currentData.src;
+                if (cap) cap.textContent = currentData.caption;
+
+                if (this.state.lbImages.length > 1) {
+                    prevBtn.classList.remove('hidden');
+                    nextBtn.classList.remove('hidden');
+                    counter.textContent = `${this.state.lbIndex + 1} / ${this.state.lbImages.length}`;
+                } else {
+                    prevBtn.classList.add('hidden');
+                    nextBtn.classList.add('hidden');
+                    counter.textContent = '';
+                }
+
+                // 7. Show & Init Canvas
                 lightbox.classList.remove('hidden');
+                this.resizeLbCanvas(); // Init canvas size immediately
+                
                 requestAnimationFrame(() => {
                     lightbox.classList.remove('opacity-0');
-                    img.classList.remove('scale-95');
-                    img.classList.add('scale-100');
                 });
+                
+                lucide.createIcons();
             },
 
             closeFullscreen() {
                 const lightbox = document.getElementById('image-lightbox');
-                const img = document.getElementById('lightbox-img');
-                if(!lightbox || !img) return;
+                if(!lightbox) return;
                 
                 lightbox.classList.add('opacity-0');
-                img.classList.remove('scale-100');
-                img.classList.add('scale-95');
                 
                 setTimeout(() => {
                     lightbox.classList.add('hidden');
-                    img.src = '';
+                    document.getElementById('lightbox-img').src = '';
+                    this.clearLbCanvas();
+                    if (this.state._boundResize) {
+                        window.removeEventListener('resize', this.state._boundResize);
+                        this.state._boundResize = null;
+                    }
                 }, 300);
+            },
+
+            nextFullscreenImage(direction) {
+                if (!this.state.lbImages || this.state.lbImages.length <= 1) return;
+
+                // We do NOT clear canvas here, allowing user to draw on screen and switch slides underneath
+                // If you WANT to clear drawing on switch, uncomment: this.clearLbCanvas();
+
+                this.state.lbIndex = (this.state.lbIndex + direction + this.state.lbImages.length) % this.state.lbImages.length;
+                
+                const data = this.state.lbImages[this.state.lbIndex];
+                const img = document.getElementById('lightbox-img');
+                const cap = document.getElementById('lightbox-caption');
+                const counter = document.getElementById('lightbox-counter');
+
+                img.style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    img.src = data.src;
+                    if(cap) cap.textContent = data.caption;
+                    if(counter) counter.textContent = `${this.state.lbIndex + 1} / ${this.state.lbImages.length}`;
+                    img.onload = () => { img.style.opacity = '1'; };
+                }, 150);
+            },
+
+            // --- Simplified Fullscreen Drawing Logic ---
+            resizeLbCanvas() {
+                const canvas = document.getElementById('lb-canvas');
+                if (!canvas) return;
+
+                // Canvas matches WINDOW size exactly
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                // Re-init context
+                this.state.lbCtx = canvas.getContext('2d');
+                this.state.lbCtx.lineCap = 'round';
+                this.state.lbCtx.lineJoin = 'round';
+                this.state.lbCtx.lineWidth = 4;
+                this.state.lbCtx.strokeStyle = this.state.lbColor || '#ef4444';
+            },
+
+            toggleLightboxDrawing() {
+                const canvas = document.getElementById('lb-canvas');
+                const tools = document.getElementById('lb-draw-tools');
+                const btn = document.getElementById('lb-draw-btn');
+                
+                this.state.isLbDrawingActive = !this.state.isLbDrawingActive;
+
+                if (this.state.isLbDrawingActive) {
+                    canvas.classList.remove('pointer-events-none'); // Enable drawing
+                    tools.classList.remove('hidden');
+                    btn.classList.add('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
+                    
+                    // Mouse Events
+                    canvas.onmousedown = this.startLbDraw.bind(this);
+                    canvas.onmousemove = this.doLbDraw.bind(this);
+                    canvas.onmouseup = () => this.state.isLbPainting = false;
+                    canvas.onmouseleave = () => this.state.isLbPainting = false;
+                    
+                    // Touch Events
+                    canvas.ontouchstart = (e) => { e.preventDefault(); this.startLbDraw(e.touches[0]); };
+                    canvas.ontouchmove = (e) => { e.preventDefault(); this.doLbDraw(e.touches[0]); };
+                    canvas.ontouchend = () => this.state.isLbPainting = false;
+
+                } else {
+                    canvas.classList.add('pointer-events-none'); // Click-through to buttons
+                    tools.classList.add('hidden');
+                    btn.classList.remove('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
+                }
+            },
+
+            setLbTool(color) {
+                this.state.lbColor = color;
+                if(this.state.lbCtx) this.state.lbCtx.strokeStyle = color;
+            },
+
+            clearLbCanvas() {
+                const canvas = document.getElementById('lb-canvas');
+                if(this.state.lbCtx && canvas) {
+                    this.state.lbCtx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            },
+
+            startLbDraw(e) {
+                if(!this.state.isLbDrawingActive) return;
+                this.state.isLbPainting = true;
+                // Simple Coordinates (No scaling needed)
+                this.state.lbLastX = e.clientX;
+                this.state.lbLastY = e.clientY;
+            },
+
+            doLbDraw(e) {
+                if (!this.state.isLbPainting || !this.state.isLbDrawingActive) return;
+                const ctx = this.state.lbCtx;
+                
+                ctx.beginPath();
+                ctx.moveTo(this.state.lbLastX, this.state.lbLastY);
+                ctx.lineTo(e.clientX, e.clientY);
+                ctx.stroke();
+
+                this.state.lbLastX = e.clientX;
+                this.state.lbLastY = e.clientY;
             },
 
             // --- Whiteboard Logic ---
