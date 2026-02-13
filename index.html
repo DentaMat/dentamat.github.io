@@ -2653,17 +2653,17 @@
             },
 
             // --- Lightbox / Fullscreen Logic ---
-           // --- Lightbox / Fullscreen Logic (Full Screen Annotation Fix) ---
+         // --- Lightbox / Fullscreen Logic (With Enhanced Text Tool) ---
             injectLightbox() {
                 if (document.getElementById('image-lightbox')) return;
 
                 const lightboxHTML = `
                     <div id="image-lightbox" class="fixed inset-0 z-[10000] bg-black/95 hidden flex flex-col transition-opacity duration-300 opacity-0">
                         
-                        <!-- 1. Full Screen Drawing Layer (Z-Index: 10005 - Above image, Below buttons) -->
+                        <!-- 1. Full Screen Drawing Layer -->
                         <canvas id="lb-canvas" class="fixed inset-0 z-[10005] pointer-events-none cursor-crosshair touch-none"></canvas>
 
-                        <!-- 2. Header Controls (Z-Index: 10010 - Clickable over canvas) -->
+                        <!-- 2. Header Controls -->
                         <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10010]">
                             <span id="lightbox-counter" class="text-white/70 font-mono text-sm ml-2 pointer-events-none"></span>
                             <div class="flex items-center gap-4">
@@ -2680,7 +2680,7 @@
                         <!-- 3. Main Content Area -->
                         <div class="flex-grow flex items-center justify-center relative w-full h-full overflow-hidden z-[10001]">
                             
-                            <!-- Prev Button (Z-Index: 10010) -->
+                            <!-- Prev Button -->
                             <button id="lb-prev-btn" onclick="window.app.nextFullscreenImage(-1)" class="absolute left-2 md:left-8 z-[10010] text-white/50 hover:text-white p-3 hover:bg-white/10 rounded-full transition-all">
                                 <i data-lucide="chevron-left" class="w-10 h-10"></i>
                             </button>
@@ -2690,7 +2690,7 @@
                                 <img id="lightbox-img" src="" class="max-h-[85vh] max-w-full object-contain shadow-2xl rounded-md select-none">
                             </div>
 
-                            <!-- Next Button (Z-Index: 10010) -->
+                            <!-- Next Button -->
                             <button id="lb-next-btn" onclick="window.app.nextFullscreenImage(1)" class="absolute right-2 md:right-8 z-[10010] text-white/50 hover:text-white p-3 hover:bg-white/10 rounded-full transition-all">
                                 <i data-lucide="chevron-right" class="w-10 h-10"></i>
                             </button>
@@ -2701,13 +2701,27 @@
                             <p id="lightbox-caption" class="text-white/90 font-medium text-lg px-4 drop-shadow-md"></p>
                         </div>
 
-                        <!-- 4. Drawing Toolbar (Z-Index: 10020 - Highest) -->
+                        <!-- 4. Drawing Toolbar -->
                         <div id="lb-draw-tools" class="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-slate-800/90 border border-slate-600 rounded-full px-6 py-3 flex items-center gap-4 z-[10020] hidden">
+                            <!-- Colors -->
                             <button onclick="window.app.setLbTool('#ef4444')" class="w-6 h-6 rounded-full bg-red-500 ring-2 ring-transparent hover:ring-white transition-all"></button>
                             <button onclick="window.app.setLbTool('#facc15')" class="w-6 h-6 rounded-full bg-yellow-400 ring-2 ring-transparent hover:ring-white transition-all"></button>
                             <button onclick="window.app.setLbTool('#3b82f6')" class="w-6 h-6 rounded-full bg-blue-500 ring-2 ring-transparent hover:ring-white transition-all"></button>
+                            <button onclick="window.app.setLbTool('#ffffff')" class="w-6 h-6 rounded-full bg-white ring-2 ring-transparent hover:ring-gray-300 transition-all"></button>
+                            
                             <div class="w-px h-6 bg-slate-500"></div>
-                            <button onclick="window.app.clearLbCanvas()" class="text-white hover:text-red-400 flex items-center gap-1">
+                            
+                            <!-- Tools -->
+                            <button onclick="window.app.setLbMode('pen')" id="lb-tool-pen" class="text-blue-400 hover:text-white" title="Pen Tool">
+                                <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="window.app.setLbMode('text')" id="lb-tool-text" class="text-white hover:text-blue-400" title="Text Tool">
+                                <i data-lucide="type" class="w-5 h-5"></i>
+                            </button>
+                            
+                            <div class="w-px h-6 bg-slate-500"></div>
+                            
+                            <button onclick="window.app.clearLbCanvas()" class="text-white hover:text-red-400 flex items-center gap-1" title="Clear All">
                                 <i data-lucide="trash-2" class="w-5 h-5"></i>
                             </button>
                         </div>
@@ -2726,24 +2740,27 @@
                 
                 if(!lightbox || !img) return;
 
-                // 1. Move Lightbox to end of DOM
                 document.body.appendChild(lightbox);
 
-                // 2. Reset State
+                // Reset State
                 this.state.isLbDrawingActive = false;
+                this.state.lbMode = 'pen'; 
+                this.state.lbColor = '#ef4444';
                 this.state.lbImages = [];
                 this.state.lbIndex = 0;
+                
+                // Reset UI
                 document.getElementById('lb-draw-tools').classList.add('hidden');
                 document.getElementById('lb-draw-btn').classList.remove('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
                 document.getElementById('lb-canvas').classList.add('pointer-events-none');
                 this.clearLbCanvas();
 
-                // 3. Bind Window Resize (Full Screen Canvas)
+                // Bind Resize
                 if (this.state._boundResize) window.removeEventListener('resize', this.state._boundResize);
                 this.state._boundResize = this.resizeLbCanvas.bind(this);
                 window.addEventListener('resize', this.state._boundResize);
 
-                // 4. Data Collection
+                // Load Data
                 const currentSlide = this.state.currentModule ? this.state.currentModule.slides[this.state.currentSlideIndex] : null;
                 
                 if (currentSlide) {
@@ -2765,11 +2782,9 @@
                     this.state.lbImages = [{ src: src, caption: caption }];
                 }
 
-                // 5. Indexing
                 this.state.lbIndex = this.state.lbImages.findIndex(item => item.src === src);
                 if (this.state.lbIndex === -1) this.state.lbIndex = 0;
 
-                // 6. Update UI
                 const currentData = this.state.lbImages[this.state.lbIndex];
                 img.src = currentData.src;
                 if (cap) cap.textContent = currentData.caption;
@@ -2784,12 +2799,10 @@
                     counter.textContent = '';
                 }
 
-                // 7. Show & Init Canvas
                 lightbox.classList.remove('hidden');
-                this.resizeLbCanvas(); // Init canvas size immediately
-                
                 requestAnimationFrame(() => {
                     lightbox.classList.remove('opacity-0');
+                    img.onload = () => this.resizeLbCanvas();
                 });
                 
                 lucide.createIcons();
@@ -2799,8 +2812,10 @@
                 const lightbox = document.getElementById('image-lightbox');
                 if(!lightbox) return;
                 
+                const activeInput = document.querySelector('.lb-text-input');
+                if(activeInput) activeInput.remove();
+
                 lightbox.classList.add('opacity-0');
-                
                 setTimeout(() => {
                     lightbox.classList.add('hidden');
                     document.getElementById('lightbox-img').src = '';
@@ -2815,9 +2830,10 @@
             nextFullscreenImage(direction) {
                 if (!this.state.lbImages || this.state.lbImages.length <= 1) return;
 
-                // We do NOT clear canvas here, allowing user to draw on screen and switch slides underneath
-                // If you WANT to clear drawing on switch, uncomment: this.clearLbCanvas();
+                const activeInput = document.querySelector('.lb-text-input');
+                if(activeInput) activeInput.remove();
 
+                this.clearLbCanvas(); 
                 this.state.lbIndex = (this.state.lbIndex + direction + this.state.lbImages.length) % this.state.lbImages.length;
                 
                 const data = this.state.lbImages[this.state.lbIndex];
@@ -2835,21 +2851,19 @@
                 }, 150);
             },
 
-            // --- Simplified Fullscreen Drawing Logic ---
             resizeLbCanvas() {
                 const canvas = document.getElementById('lb-canvas');
                 if (!canvas) return;
-
-                // Canvas matches WINDOW size exactly
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 
-                // Re-init context
                 this.state.lbCtx = canvas.getContext('2d');
                 this.state.lbCtx.lineCap = 'round';
                 this.state.lbCtx.lineJoin = 'round';
                 this.state.lbCtx.lineWidth = 4;
                 this.state.lbCtx.strokeStyle = this.state.lbColor || '#ef4444';
+                this.state.lbCtx.fillStyle = this.state.lbColor || '#ef4444';
+                this.state.lbCtx.font = "bold 24px sans-serif";
             },
 
             toggleLightboxDrawing() {
@@ -2860,31 +2874,62 @@
                 this.state.isLbDrawingActive = !this.state.isLbDrawingActive;
 
                 if (this.state.isLbDrawingActive) {
-                    canvas.classList.remove('pointer-events-none'); // Enable drawing
+                    canvas.classList.remove('pointer-events-none');
                     tools.classList.remove('hidden');
                     btn.classList.add('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
-                    
-                    // Mouse Events
-                    canvas.onmousedown = this.startLbDraw.bind(this);
-                    canvas.onmousemove = this.doLbDraw.bind(this);
+                    this.resizeLbCanvas();
+                    this.setLbMode('pen'); 
+
+                    canvas.onmousedown = this.startLbAction.bind(this);
+                    canvas.onmousemove = this.doLbAction.bind(this);
                     canvas.onmouseup = () => this.state.isLbPainting = false;
-                    canvas.onmouseleave = () => this.state.isLbPainting = false;
                     
-                    // Touch Events
-                    canvas.ontouchstart = (e) => { e.preventDefault(); this.startLbDraw(e.touches[0]); };
-                    canvas.ontouchmove = (e) => { e.preventDefault(); this.doLbDraw(e.touches[0]); };
+                    canvas.ontouchstart = (e) => { e.preventDefault(); this.startLbAction(e.touches[0]); };
+                    canvas.ontouchmove = (e) => { e.preventDefault(); this.doLbAction(e.touches[0]); };
                     canvas.ontouchend = () => this.state.isLbPainting = false;
 
                 } else {
-                    canvas.classList.add('pointer-events-none'); // Click-through to buttons
+                    canvas.classList.add('pointer-events-none');
                     tools.classList.add('hidden');
                     btn.classList.remove('bg-white', 'text-slate-900', 'ring-2', 'ring-white');
+                    
+                    const activeInput = document.querySelector('.lb-text-input');
+                    if(activeInput) activeInput.remove();
                 }
             },
 
             setLbTool(color) {
                 this.state.lbColor = color;
-                if(this.state.lbCtx) this.state.lbCtx.strokeStyle = color;
+                if(this.state.lbCtx) {
+                    this.state.lbCtx.strokeStyle = color;
+                    this.state.lbCtx.fillStyle = color;
+                }
+                const activeInput = document.querySelector('.lb-text-input');
+                if(activeInput) {
+                    activeInput.style.color = color;
+                    activeInput.focus();
+                }
+            },
+
+            setLbMode(mode) {
+                this.state.lbMode = mode; 
+                const penBtn = document.getElementById('lb-tool-pen');
+                const textBtn = document.getElementById('lb-tool-text');
+                const canvas = document.getElementById('lb-canvas');
+                
+                if(mode === 'pen') {
+                    penBtn.classList.add('text-blue-400'); penBtn.classList.remove('text-white');
+                    textBtn.classList.add('text-white'); textBtn.classList.remove('text-blue-400');
+                    canvas.style.cursor = 'crosshair';
+                    
+                    // If switching to pen, commit any open text
+                    const activeInput = document.querySelector('.lb-text-input');
+                    if(activeInput) activeInput.blur();
+                } else {
+                    textBtn.classList.add('text-blue-400'); textBtn.classList.remove('text-white');
+                    penBtn.classList.add('text-white'); penBtn.classList.remove('text-blue-400');
+                    canvas.style.cursor = 'text';
+                }
             },
 
             clearLbCanvas() {
@@ -2892,20 +2937,27 @@
                 if(this.state.lbCtx && canvas) {
                     this.state.lbCtx.clearRect(0, 0, canvas.width, canvas.height);
                 }
+                const activeInput = document.querySelector('.lb-text-input');
+                if(activeInput) activeInput.remove();
             },
 
-            startLbDraw(e) {
+            startLbAction(e) {
                 if(!this.state.isLbDrawingActive) return;
-                this.state.isLbPainting = true;
-                // Simple Coordinates (No scaling needed)
-                this.state.lbLastX = e.clientX;
-                this.state.lbLastY = e.clientY;
+
+                if (this.state.lbMode === 'text') {
+                    this.spawnLbText(e.clientX, e.clientY);
+                } else {
+                    this.state.isLbPainting = true;
+                    this.state.lbLastX = e.clientX;
+                    this.state.lbLastY = e.clientY;
+                }
             },
 
-            doLbDraw(e) {
+            doLbAction(e) {
+                if (this.state.lbMode === 'text') return;
                 if (!this.state.isLbPainting || !this.state.isLbDrawingActive) return;
-                const ctx = this.state.lbCtx;
                 
+                const ctx = this.state.lbCtx;
                 ctx.beginPath();
                 ctx.moveTo(this.state.lbLastX, this.state.lbLastY);
                 ctx.lineTo(e.clientX, e.clientY);
@@ -2913,6 +2965,52 @@
 
                 this.state.lbLastX = e.clientX;
                 this.state.lbLastY = e.clientY;
+            },
+
+            // --- Text Annotation Logic ---
+            spawnLbText(x, y) {
+                // If input exists, commit it (blur triggers burn)
+                const existingInput = document.querySelector('.lb-text-input');
+                if (existingInput) {
+                    existingInput.blur(); 
+                    return; // Stop here, don't spawn new one immediately on the same click
+                }
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'lb-text-input absolute z-[10030] bg-transparent border-none outline-none p-0 m-0 shadow-none';
+                input.style.left = `${x}px`;
+                input.style.top = `${y - 12}px`;
+                input.style.color = this.state.lbColor || '#ef4444';
+                input.style.font = "bold 24px sans-serif";
+                input.style.minWidth = "50px";
+                input.placeholder = "Type...";
+                
+                document.getElementById('image-lightbox').appendChild(input);
+                
+                setTimeout(() => input.focus(), 10);
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') input.blur(); // Commit
+                    if (e.key === 'Escape') input.remove(); // Cancel
+                });
+
+                input.addEventListener('blur', () => {
+                    this.burnLbText(input, x, y);
+                });
+            },
+
+            burnLbText(input, x, y) {
+                // Check if input is still in DOM (it might have been removed by Esc)
+                if (!document.body.contains(input)) return;
+
+                if (input.value.trim()) {
+                    const ctx = this.state.lbCtx;
+                    ctx.font = "bold 24px sans-serif";
+                    ctx.fillStyle = input.style.color;
+                    ctx.fillText(input.value, x, y + 8);
+                }
+                input.remove();
             },
 
             // --- Whiteboard Logic ---
